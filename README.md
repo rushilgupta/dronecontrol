@@ -1,4 +1,5 @@
-Drexa: Drone control via Alexa
+Drexa: Drone control via Alexa.
+
 An alexa skill to control a parrot minidrone over voice.
 
 What do you need:
@@ -22,9 +23,9 @@ D. Limitations:
 
 E. Alexa skill
 - This skill supports 6 types of utterances:
-  -- TakeOffDroneIntent: drone takes off
-  -- LandDroneIntent: drone lands
-  -- RotateDroneIntent: drone rotates by +90 or -90 degrees. 
+  - TakeOffDroneIntent: drone takes off
+  - LandDroneIntent: drone lands
+  - RotateDroneIntent: drone rotates by +90 or -90 degrees. 
     -- Slot: RotationType (2 values: `[+90, -90]`)
     -- Resolution: "clockwise" -> 90, "counterclockwise" -> -90.
   -- DroneMovementIntent: drone moves in 6 possible directions. 
