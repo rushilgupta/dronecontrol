@@ -2,15 +2,48 @@ Drexa: Drone control via Alexa
 An alexa skill to control a parrot minidrone over voice.
 
 What do you need:
-- Configure a skill like DroneControl. (TODO: add info about intents, slots and utterances)
+
+A. Hardware requirements:
 - A parrot minidrone like Cargo/Mambo that connects over bluetooth.
-- A raspberry pi to connect AWS SQS queue to minidrone.
-- This kickass library installed on raspberry pi created by Amy https://github.com/amymcgovern/pyparrot. This library offers python-api to connect drone over bluetooth.
+- A raspberry pi to bridge AWS to minidrone.
 
-How does it work:
-- Skill publishes events on SQS.
+B. Software requirements:
+- Configure an alexa skill like DroneControl. See section on `how to configure alexa skill`.
+- Configure lambda to bridge alexa voice commands to AWS. See section on `how to configure lambda`.
+- Install this kickass library (created by @amymcgovern) on raspberry pi: https://github.com/amymcgovern/pyparrot. This library offers python-api to connect drone over bluetooth.
+
+C. How does it work:
+- Skill calls the AWS lambda function, which receives the intent request and sends events to queue (AWS SQS).
 - DroneService on Raspberry pi polls SQS and processes event.
-- Instructions to Parrot drone is sent over Bluetooth.
+- DroneService sends movement instructions to Parrot drone over Bluetooth.
 
-Limitations:
-- Queue should have only one consumer. It won't work for multiple consumers polling same queue.
+D. Limitations:
+- Queue should have only one consumer and one publisher. It won't work for multiple raspberry-pis polling same queue.
+
+E. Alexa skill
+- This skill supports 6 types of utterances:
+  -- TakeOffDroneIntent: drone takes off
+  -- LandDroneIntent: drone lands
+  -- RotateDroneIntent: drone rotates by +90 or -90 degrees. 
+    -- Slot: RotationType (2 values: `[+90, -90]`)
+    -- Resolution: "clockwise" -> 90, "counterclockwise" -> -90.
+  -- DroneMovementIntent: drone moves in 6 possible directions. 
+    -- Slot: DirectionType (6 values: `["up", "down", "left", "right", "forward", "backward"]`)
+  -- HoverDroneIntent: drone hovers around one time.
+  -- FlightPlanIntent: drone calls a hard coded flight plan:
+  - Build model to point various utterances to this intents.
+  - Set endpoint of this skill as AWS Lambda ARN (that we'll create in next step).
+  
+  F. Lamda
+  - Create a lambda file index.js based on provided `skills.js`. 
+  - The code maps each intent to actionable handler code. This code extracts slots and creates a payload to be sent to SQS.
+  - Lambda also send out an appropriate voice reply.
+  
+  G. SQS
+  - It is simple queue with minimum capacity. Since only one drone is in the play, this queue doesn't need to handle more than ~10 events per minute.
+  
+  H. Drone service
+  Drone service is a inifintely looping program that does the following:
+  - Polls SQS. 
+  - If a messgae is available, then extract payload and call corresponding method. `"TakeOffDroneIntent" -> takeOff()`
+  - The method calls `pyparrot` library to execute movement `"Up", "Down", "Land"`
