@@ -26,12 +26,12 @@ E. Alexa skill
   - TakeOffDroneIntent: drone takes off
   - LandDroneIntent: drone lands
   - RotateDroneIntent: drone rotates by +90 or -90 degrees. 
-    -- Slot: RotationType (2 values: `[+90, -90]`)
-    -- Resolution: "clockwise" -> 90, "counterclockwise" -> -90.
-  -- DroneMovementIntent: drone moves in 6 possible directions. 
-    -- Slot: DirectionType (6 values: `["up", "down", "left", "right", "forward", "backward"]`)
-  -- HoverDroneIntent: drone hovers around one time.
-  -- FlightPlanIntent: drone calls a hard coded flight plan:
+    - Slot: RotationType (2 values: `[+90, -90]`)
+    - Resolution: "clockwise" -> 90, "counterclockwise" -> -90.
+  - DroneMovementIntent: drone moves in 6 possible directions. 
+    - Slot: DirectionType (6 values: `["up", "down", "left", "right", "forward", "backward"]`)
+  - HoverDroneIntent: drone hovers around one time.
+  - FlightPlanIntent: drone calls a hard coded flight plan:
   - Build model to point various utterances to this intents.
   - Set endpoint of this skill as AWS Lambda ARN (that we'll create in next step).
   
