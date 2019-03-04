@@ -1,6 +1,4 @@
-Drexa: Drone control via Alexa.
-
-An alexa skill to control a parrot minidrone over voice.
+Drexa: Drone control via Alexa. An alexa skill to control a parrot minidrone over voice.
 
 What do you need:
 
@@ -9,8 +7,8 @@ A. Hardware requirements:
 - A raspberry pi to bridge AWS to minidrone.
 
 B. Software requirements:
-- Configure an alexa skill like DroneControl. See section on `how to configure alexa skill`.
-- Configure lambda to bridge alexa voice commands to AWS. See section on `how to configure lambda`.
+- Configure an alexa skill like DroneControl. See section on `alexa skill`.
+- Configure lambda to bridge alexa voice commands to AWS. See section on `lambda`.
 - Install this kickass library (created by @amymcgovern) on raspberry pi: https://github.com/amymcgovern/pyparrot. This library offers python-api to connect drone over bluetooth.
 
 C. How does it work:
@@ -35,16 +33,17 @@ E. Alexa skill
   - Build model to point various utterances to this intents.
   - Set endpoint of this skill as AWS Lambda ARN (that we'll create in next step).
   
+  
   F. Lamda
   - Create a lambda file index.js based on provided `skills.js`. 
-  - The code maps each intent to actionable handler code. This code extracts slots and creates a payload to be sent to SQS.
-  - Lambda also send out an appropriate voice reply.
+  - The code maps each intent to an actionable handler code. This code extracts slots and creates a payload to be sent to SQS.
+  - Lambda also sends out an appropriate voice reply.
   
   G. SQS
-  - It is simple queue with minimum capacity. Since only one drone is in the play, this queue doesn't need to handle more than ~10 events per minute.
+  - A simple queue. Since only one drone is in the play, this queue doesn't need any fancy setup to handle more than ~10 events per minute.
   
   H. Drone service
   Drone service is a inifintely looping program that does the following:
   - Polls SQS. 
-  - If a messgae is available, then extract payload and call corresponding method. `"TakeOffDroneIntent" -> takeOff()`
-  - The method calls `pyparrot` library to execute movement `"Up", "Down", "Land"`
+  - If a messgae is available, then extracts payload and calls the corresponding method. `"TakeOffDroneIntent" -> takeOff()`
+  - The method calls `pyparrot` library to execute movement `"Up", "Down", "Land"`.
