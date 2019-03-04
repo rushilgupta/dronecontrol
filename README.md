@@ -29,21 +29,21 @@ E. Alexa skill
   - DroneMovementIntent: drone moves in 6 possible directions. 
     - Slot: DirectionType (6 values: `["up", "down", "left", "right", "forward", "backward"]`)
   - HoverDroneIntent: drone hovers around one time.
-  - FlightPlanIntent: drone calls a hard coded flight plan:
-  - Build model to point various utterances to this intents.
-  - Set endpoint of this skill as AWS Lambda ARN (that we'll create in next step).
+  - FlightPlanIntent: drone calls a hard coded flight plan in `flight_plan`
+- Build model to point various utterances to this intents.
+- Set endpoint of this skill as AWS Lambda ARN (that we'll create in next step).
+
   
-  
-  F. Lamda
-  - Create a lambda file index.js based on provided `skills.js`. 
-  - The code maps each intent to an actionable handler code. This code extracts slots and creates a payload to be sent to SQS.
+F. Lamda
+- Create a lambda file index.js based on provided `skills.js`. 
+- The code maps each intent to an actionable handler code. This code extracts slots and creates a payload to be sent to SQS.
   - Lambda also sends out an appropriate voice reply.
   
-  G. SQS
-  - A simple queue. Since only one drone is in the play, this queue doesn't need any fancy setup to handle more than ~10 events per minute.
+G. SQS
+ - A simple queue. Since only one drone is in the play, this queue doesn't need any fancy setup to handle more than ~10 events per minute.
   
-  H. Drone service
-  Drone service is a inifintely looping program that does the following:
-  - Polls SQS. 
-  - If a messgae is available, then extracts payload and calls the corresponding method. `"TakeOffDroneIntent" -> takeOff()`
-  - The method calls `pyparrot` library to execute movement `"Up", "Down", "Land"`.
+H. Drone service
+Drone service is a inifintely looping program that does the following:
+- Polls SQS. 
+- If a message is available, then extracts payload and calls the corresponding method. `"TakeOffDroneIntent" -> takeOff()`
+- The method calls `pyparrot` library to execute drone movement `"Up", "Down", "Land"`.
