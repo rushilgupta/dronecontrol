@@ -1,23 +1,21 @@
-# Drexa: 
-Drone control via Alexa. An alexa skill to control a parrot minidrone over voice.
+# Drexa
+Drone control via Alexa. An alexa skill to control a parrot minidrone through voice commands.
 
-## What do you need:
-
-### A. Hardware requirements:
+## Hardware requirements
 - A parrot minidrone like Cargo/Mambo that connects over bluetooth.
 - A raspberry pi to bridge AWS to minidrone.
 
-### B. Software requirements:
+## Software requirements
 - Configure an alexa skill like DroneControl. See section on `alexa skill`.
 - Configure lambda to bridge alexa voice commands to AWS. See section on `lambda`.
 - Install this kickass library (created by @amymcgovern) on raspberry pi: https://github.com/amymcgovern/pyparrot. This library offers python-api to connect drone over bluetooth.
 
-## How does it work:
+## How does it work
 - Skill calls the AWS lambda function, which receives the intent request and sends events to queue (AWS SQS).
 - DroneService on Raspberry pi polls SQS and processes event.
 - DroneService sends movement instructions to Parrot drone over Bluetooth.
 
-## Limitations:
+## Limitations
 - Queue should have only one consumer and one publisher. It won't work for multiple raspberry-pis polling same queue.
 
 ## Alexa skill
