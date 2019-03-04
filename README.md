@@ -17,8 +17,11 @@ See it here in action: https://dms.licdn.com/playback/C5605AQEoCTbKaAS2YA/7e73b1
 - DroneService on Raspberry pi polls SQS and processes event.
 - DroneService sends movement instructions to Parrot drone over Bluetooth.
 
-## Limitations
+## Limitations/Future work
 - Queue should have only one consumer and one publisher. It won't work for multiple raspberry-pis polling same queue.
+- Add facial recognition in pi to support "ask drone control to come to me" type of usecase.
+- Support inter drone communication.
+
 
 ## Alexa skill
 - This skill supports 6 types of utterances:
