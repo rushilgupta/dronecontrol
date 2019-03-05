@@ -1,7 +1,9 @@
 # Drexa
 Drone control via Alexa. An alexa skill to control a parrot minidrone through voice commands.
 
-See it here in action: [![IMAGE ALT TEXT](http://img.youtube.com/vi/Fl01-RQXWUQ/0.jpg)](https://www.youtube.com/watch?v=Fl01-RQXWUQ "Drexa")
+See it here in action: 
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/Fl01-RQXWUQ/0.jpg)](https://www.youtube.com/watch?v=Fl01-RQXWUQ "Drexa")
 
 ## Hardware requirements
 - A parrot minidrone like Cargo/Mambo that connects over bluetooth.
