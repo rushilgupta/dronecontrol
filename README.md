@@ -1,7 +1,7 @@
 # Drexa
 Drone control via Alexa. An alexa skill to control a parrot minidrone through voice commands.
 
-See it here in action: 
+See it here in action:
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/Fl01-RQXWUQ/0.jpg)](https://www.youtube.com/watch?v=Fl01-RQXWUQ "Drexa")
 
@@ -29,27 +29,27 @@ See it here in action:
 - This skill supports 6 types of utterances:
   - TakeOffDroneIntent: drone takes off
   - LandDroneIntent: drone lands
-  - RotateDroneIntent: drone rotates by +90 or -90 degrees. 
+  - RotateDroneIntent: drone rotates by +90 or -90 degrees.
     - Slot: RotationType (2 values: `[+90, -90]`)
     - Resolution: "clockwise" -> 90, "counterclockwise" -> -90.
-  - DroneMovementIntent: drone moves in 6 possible directions. 
+  - DroneMovementIntent: drone moves in 6 possible directions.
     - Slot: DirectionType (6 values: `["up", "down", "left", "right", "forward", "backward"]`)
   - HoverDroneIntent: drone hovers around one time.
   - FlightPlanIntent: drone calls a hard coded flight plan in `flight_plan`
 - Build model to point various utterances to this intents.
 - Set endpoint of this skill as AWS Lambda ARN (that we'll create in next step).
 
-  
+
 ## Lamda
-- Create a lambda file index.js based on provided `skills.js`. 
+- Create a lambda file index.js based on provided `index.js`.
 - The code maps each intent to an actionable handler code. This code extracts slots and creates a JSON payload to be sent to SQS.
   - Lambda also sends out an appropriate voice reply.
-  
+
 ## SQS
  - A simple queue. Since only one drone is in the play, this queue doesn't need any fancy setup to handle ~10 events per minute.
-  
+
 ## Drone service
 Drone service is a inifintely looping program that does the following:
-- Polls SQS. 
+- Polls SQS.
 - If a message is available, then extracts payload and calls the corresponding method. For example: `"TakeOffDroneIntent" -> takeOff()`
 - The method calls `pyparrot` library to execute drone movement like `"Move Up", "Move Down", "Land"`.
