@@ -49,7 +49,7 @@ See it here in action:
  - A simple queue. Since only one drone is in the play, this queue doesn't need any fancy setup to handle ~10 events per minute.
 
 ## Drone service
-Drone service is a inifintely looping program that does the following:
+Drone service is a infinitely looping program that does the following:
 - Polls SQS.
 - If a message is available, then extracts payload and calls the corresponding method. For example: `"TakeOffDroneIntent" -> takeOff()`
 - The method calls `pyparrot` library to execute drone movement like `"Move Up", "Move Down", "Land"`.
